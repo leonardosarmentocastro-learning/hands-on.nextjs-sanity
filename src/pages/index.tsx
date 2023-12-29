@@ -1,31 +1,44 @@
 import { memo, useContext } from 'react';
-import { Inter } from 'next/font/google'
+import { Inter } from 'next/font/google';
+import { createClient } from 'next-sanity';
 
-import { CTA } from '../components';
+import { CTA, CTABlockSchema } from '../components';
 import { Variants } from '../theme';
+import { apiVersion, dataset, projectId } from '../../sanity/env';
+
 const inter = Inter({ subsets: ['latin'] });
 
-export default function Home() {
+const client = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+});
+
+export async function getStaticProps() {
+  const CTABlocks = await client.fetch(`*[_type == "${CTABlockSchema.name}"]`);
+
+  return {
+    props: { CTABlocks },
+  };
+};
+
+type Props = {
+  CTABlocks: any[] // TODO: groqd
+};
+export default function Home({ CTABlocks }: Props) {
   return (
     <main className='flex w-screen h-screen bg-white justify-content'>
       <div className='flex flex-row gap-12 w-full justify-center'>
-        <CTA
-          title='Become a PairTree Home Study Provider'
-          description='Lorem ipsum sit dolor adpiscing amet dolorum.'
-          variant={Variants.Family}
-        />
-
-        <CTA
-          title='Set up a Call with Us Today'
-          description='Schedule a free 30 minute Zoom chat to learn more about PairTree.'
-          variant={Variants.Mom}
-        />
-
-        <CTA
-          title='Create a FREE Listing on PairTree'
-          description='Plus your own personalized profile page.'
-          variant={Variants.Pro}
-        />
+        {CTABlocks.map(c => (
+          <CTA
+            key={c._id}
+            description={c.copy}
+            title={c.heading}
+            url={c.url}
+            variant={c.variant}
+          />
+        ))}
       </div>
     </main>
   )

@@ -16,6 +16,7 @@ const CTATheme: Theme = {
 type CTAProps = {
   description: string
   title: string
+  url: string
   variant: Variants
 };
 
@@ -23,6 +24,7 @@ type CTAProps = {
 export const CTA = memo(({
   description,
   title,
+  url,
   variant,
 }: CTAProps) => {
   // https://tailwindcss.com/docs/content-configuration#dynamic-class-names
@@ -38,9 +40,13 @@ export const CTA = memo(({
         {description}
       </p>
 
-      <p className={`flex justify-center items-center h-16 w-16 mx-auto rounded-full ${backgroundColor} text-5xl text-white`}>
+      <a
+        className={`flex justify-center items-center h-16 w-16 mx-auto rounded-full ${backgroundColor} text-5xl text-white`}
+        href={url}
+        target='_blank'
+      >
         →
-      </p>
+      </a>
     </div>
   )
 });
