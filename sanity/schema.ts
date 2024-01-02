@@ -1,6 +1,9 @@
 import { type SchemaTypeDefinition } from 'sanity'
-import { CTABlockSchema } from '../src/components';
+import {
+  CTABlockSchema,
+  HomePageSchema,
+} from '../src/components';
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [ CTABlockSchema ],
+  types: [ CTABlockSchema, HomePageSchema ],
 }

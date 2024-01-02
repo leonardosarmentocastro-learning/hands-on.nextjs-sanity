@@ -13,7 +13,6 @@ const CTATheme: Theme = {
   }
 };
 
-
 // https://www.figma.com/file/co2v9sMm8hGMDap6zA4Nnm/Site-2023-v1?type=design&node-id=1148-11466&mode=design&t=NN8nOKkfxakSMP13-0
 type Props = TypeFromSelection<typeof selection>;
 export type CTAProps = InferType<typeof schema>;

@@ -1,24 +1,28 @@
+import { useMemo } from 'react';
+
 import { sanityClient } from '../../sanity';
-import { CTA, CTAProps, query as ctaQuery } from '../components';
+import {
+  HomePage,
+  HomePageProps,
+  query as homePageQuery,
+} from '../components/HomePage';
 
 export async function getStaticProps() {
-  const CTABlocks = await sanityClient.fetch(ctaQuery);
+  const queryResult = await sanityClient.fetch(homePageQuery);
 
   return {
-    props: { CTABlocks },
+    props: { queryResult },
   };
 };
 
-type Props = { CTABlocks: CTAProps };
-export default function Home({ CTABlocks }: Props) {
+type Props = {
+  queryResult: HomePageProps,
+};
+export default function Home(props: Props & {/* extend type if needed */}) {
+  const page = useMemo(() => props.queryResult[0], [ props.queryResult ]);
+  const ctaBlocks = useMemo(() => page?.CtaBlocks || [], [ page ]);
 
   return (
-    <main className='flex w-screen h-screen bg-white justify-content'>
-      <div className='flex flex-row gap-12 w-full justify-center'>
-        {CTABlocks.map(c => (
-          <CTA key={c._id} {...c} />
-        ))}
-      </div>
-    </main>
+    <HomePage CtaBlocks={ctaBlocks} />
   )
 }
