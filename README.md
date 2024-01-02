@@ -17,7 +17,8 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-Open [http://localhost:3000/studio](http://localhost:3000/studio) with your browser to manage Sanity schemas.
+
+Visit [http://localhost:3000/studio](http://localhost:3000/studio) to manage Sanity schemas.
 
 ---
 
